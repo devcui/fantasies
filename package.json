@@ -1,7 +1,7 @@
 {
   "name": "@fantasies/ui",
   "description": "",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "packageManager": "pnpm@10.11.0",
   "repository": {
     "type": "git",
