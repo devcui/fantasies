@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@nuxt/fantasies-playground",
+  "name": "@fantasies/ui-playground",
   "type": "module",
   "scripts": {
     "dev": "nuxi dev",
@@ -13,7 +13,7 @@
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/lucide": "^1.2.44",
     "@iconify-json/simple-icons": "^1.2.35",
-    "@nuxt/fantasies": "../",
+    "@fantasies/ui": "../",
     "@nuxthub/core": "^0.8.27",
     "nuxt": "^3.17.4",
     "workers-ai-provider": "^0.5.2",

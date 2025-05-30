@@ -1,5 +1,5 @@
 {
-  "name": "@nuxt/fantasies",
+  "name": "@fantasies/ui",
   "description": "",
   "version": "1.0.0",
   "packageManager": "pnpm@10.11.0",
@@ -159,7 +159,7 @@
     }
   },
   "resolutions": {
-    "@nuxt/fantasies": "workspace:*",
+    "@fantasies/ui": "workspace:*",
     "debug": "4.3.7",
     "rollup": "4.34.9",
     "unimport": "4.1.1",

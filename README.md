@@ -15,7 +15,7 @@ An enhanced UI component library built on top of Nuxt UI, providing additional c
 1. **Install the package**
 
 ```bash
-npm install @nuxt/fantasies
+npm install @fantasies/ui
 ```
 
 2. **Add to your Nuxt configuration**
@@ -24,7 +24,7 @@ npm install @nuxt/fantasies
 // nuxt.config.ts
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/fantasies',
+    '@fantasies/ui',
   ]
 })
 ```

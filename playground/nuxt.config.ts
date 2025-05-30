@@ -1,6 +1,6 @@
 export default defineNuxtConfig({
   modules: [
-    '@nuxt/fantasies',
+    '@fantasies/ui',
     '@nuxtjs/mdc',
     '@nuxthub/core'
   ],
