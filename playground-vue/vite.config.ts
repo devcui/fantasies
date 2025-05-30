@@ -7,9 +7,9 @@ export default defineConfig({
   plugins: [
     vue(),
     fantasies({
-      prefix:"U",
-      fantasies:{
-        prefix:'F',
+      prefix: 'U',
+      fantasies: {
+        prefix: 'F'
       },
       ui: {
         colors: {
