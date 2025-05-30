@@ -8,10 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    FButton: typeof import('./../src/runtime/components/Button.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UApp: typeof import('./../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.3_db0@0.3.2_better-sqlite3@11.10.0__embla-carousel@8._7b8fdf998bd64579251091fec5d76a1a/node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
-    UButton: typeof import('./../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.3_db0@0.3.2_better-sqlite3@11.10.0__embla-carousel@8._7b8fdf998bd64579251091fec5d76a1a/node_modules/@nuxt/ui/dist/runtime/components/Button.vue')['default']
   }
 }

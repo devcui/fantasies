@@ -14,7 +14,7 @@ export default defineNuxtModule<ModuleOptions>({
   meta: {
     name,
     version,
-    doc: 'https://github.com/devcui/fantasies',
+    doc: 'https://github.com/devcui/fantasies-ui',
     configKey: 'fantasies',
     compatibility: {
       nuxt: '>=3.16.0'
@@ -28,7 +28,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(options, nuxt) {
     nuxt.options.appConfig.ui = defu(nuxt.options.appConfig.ui || {}, { icons })
 
-    if (!hasNuxtModule('@nuxt/ui')) await installModule('@nuxt/ui')
+    if (!hasNuxtModule('@nuxt/ui')) await installModule('@nuxt/ui', { prefix: 'U' })
 
     const { resolve } = createResolver(import.meta.url)
     nuxt.options.alias['#fantasies'] = resolve('./runtime')
