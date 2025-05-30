@@ -1,26 +1,38 @@
 # Fantasies
 
-Secondary development of nuxt ui
+An enhanced UI component library built on top of Nuxt UI, providing additional components and utilities for modern web applications.
 
-## how to use
+## Features
 
-1. Install dependencies
+- 🎨 Extended component library based on @nuxt/ui
+- 🔧 Highly customizable with TailwindCSS
+- 📱 Mobile-first responsive design
+- 🎯 TypeScript support
+- ⚡ Lightning fast with Nuxt 3
+
+## Installation
+
+1. **Install the package**
 
 ```bash
 npm install @nuxt/fantasies
 ```
 
-2. Import the module
-
-```bash
- modules: [
-    '@nuxt/fantasies',
-  ]
-```
-
-3. Tailwindcss configuration
+2. **Add to your Nuxt configuration**
 
 ```js
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: [
+    '@nuxt/fantasies',
+  ]
+})
+```
+
+3. **Configure TailwindCSS and component defaults**
+
+```js
+// app.config.ts
 export default defineAppConfig({
   ui: {
     colors: {
@@ -39,18 +51,56 @@ export default defineAppConfig({
 })
 ```
 
-4. How to run
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- pnpm
+
+### Getting Started
+
+1. **Install dependencies**
 
 ```bash
 pnpm i
+```
+
+2. **Prepare the development environment**
+
+```bash
 pnpx nuxt prepare
 pnpm dev:prepare
-# nuxt
+```
+
+3. **Start development server**
+
+```bash
+# For Nuxt playground
 pnpm dev
-# vue
+
+# For Vue playground
 pnpm dev:vue
 ```
 
-## What else can be done
+## What's Included
 
-You can think of it as a starter that extends @nuxt/ui
+Fantasies extends @nuxt/ui with additional components and utilities, providing a comprehensive starter kit for building modern web applications with enhanced UI capabilities.
+
+## Roadmap
+
+- [ ] Dynamic form component with validation
+- [ ] Dynamic table component with sorting and filtering
+- [ ] Paginated table with automatic URL-based requests
+- [ ] Comprehensive test suite
+- [ ] Documentation website
+- [ ] Project homepage
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+
