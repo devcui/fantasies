@@ -5,13 +5,15 @@ import { defineProps, useAttrs, useSlots } from 'vue'
 import type theme from '#build/fantasies/form-item'
 import type { ComponentConfig } from '../types/tv'
 import type { AppConfig } from '@nuxt/schema'
+import type { ComponentEmit, ComponentProps } from 'vue-component-type-helpers'
 
 type FormItem = ComponentConfig<typeof theme, AppConfig, 'formItem', 'fantasies'>
 
-export interface FormItemProps {
-  type: 'input' | 'select'
-  [key: string]: any
-}
+export type Unzip<T> = /* @vue-ignore */ ComponentProps<T> & /* @vue-ignore */ ComponentEmit<T>
+
+export type FormItemProps =
+  | { type: 'input' } & Unzip<typeof Input>
+  | { type: 'select' } & Unzip<typeof Select>
 
 const componentMap = {
   input: Input,
