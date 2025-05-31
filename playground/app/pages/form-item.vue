@@ -1,136 +1,98 @@
 <template>
-  <div class="p-6 space-y-8">
-    <h2 class="text-3xl font-bold text-center mb-8">
-      FFormItem Component Examples
-    </h2>
+  <div class="p-6 space-y-6">
+    <h1 class="text-3xl font-bold text-center mb-8">
+      FFormItem Comprehensive Test Page
+    </h1>
 
-    <!-- Section 1: Basic Usage & Input Types -->
-    <section class="p-4 border rounded-lg shadow">
-      <h3 class="text-xl font-semibold mb-4">
-        1. Basic Usage & Input Types
-      </h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-sm font-medium mb-1">Input (Text)</label>
-          <FFormItem v-model="basicInputText" type="input" placeholder="Enter text" />
-          <p class="text-xs text-gray-500 mt-1">
-            Value: <code class="bg-gray-100 px-1 rounded">{{ basicInputText }}</code>
-          </p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Input (Email)</label>
-          <FFormItem v-model="basicInputEmail" type="input" input-type="email" placeholder="Enter email" />
-          <p class="text-xs text-gray-500 mt-1">
-            Value: <code class="bg-gray-100 px-1 rounded">{{ basicInputEmail }}</code>
-          </p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Input (Number)</label>
-          <FFormItem v-model="basicInputNumber" type="input" input-type="number" placeholder="Enter number" />
-          <p class="text-xs text-gray-500 mt-1">
-            Value: <code class="bg-gray-100 px-1 rounded">{{ basicInputNumber }}</code>
-          </p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Select (String Array Items)</label>
-          <FFormItem v-model="basicSelectString" type="select" :items="['Option A', 'Option B', 'Option C']" placeholder="Select an option" />
-          <p class="text-xs text-gray-500 mt-1">
-            Value: <code class="bg-gray-100 px-1 rounded">{{ basicSelectString }}</code>
-          </p>
-        </div>
-        <div>
-          <label class="block text-sm font-medium mb-1">Select (Object Array Items)</label>
-          <FFormItem
-            v-model="basicSelectObject"
-            type="select"
-            :items="[
-              { label: 'Item X', value: 'x' },
-              { label: 'Item Y', value: 'y' },
-              { label: 'Item Z', value: 'z' }
-            ]"
-            placeholder="Select an item"
-          />
-          <p class="text-xs text-gray-500 mt-1">
-            Value: <code class="bg-gray-100 px-1 rounded">{{ basicSelectObject }}</code>
-          </p>
+    <!-- Dynamic Props Binding Example -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        1. Dynamic Props Binding (from `formFields`)
+      </h2>
+      <div v-for="field in formFields" :key="field.name" class="space-y-2 mb-4">
+        <label class="block text-sm font-medium text-gray-600">{{ field.label }}</label>
+        <FFormItem
+          v-model="formData[field.name]"
+          v-bind="field.props"
+          @input="handleFieldChange(field.name, $event)"
+        />
+      </div>
+      <div class="bg-yellow-50 p-3 rounded text-xs mt-2 border border-yellow-200">
+        <strong>Form Data:</strong>
+        <pre>{{ JSON.stringify(formData, null, 2) }}</pre>
+      </div>
+    </div>
+
+    <!-- Dynamic Component Type Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        2. Dynamic Component Type Test (`type` prop)
+      </h2>
+      <div class="space-y-2">
+        <label class="block text-sm font-medium text-gray-600">Component Type Selector</label>
+        <FFormItem
+          v-model="selectedType"
+          type="select"
+          :items="componentTypes"
+          placeholder="Select Component Type"
+        />
+        <p class="text-xs text-gray-500">
+          Selected type: <code class="bg-gray-200 px-1 rounded">{{ selectedType }}</code>. The component below should render as {{ selectedType === 'input' ? 'an Input' : 'a Select' }}.
+        </p>
+      </div>
+      <div class="space-y-2 mt-3">
+        <label class="block text-sm font-medium text-gray-600">Dynamically Typed Component</label>
+        <FFormItem
+          v-bind="dynamicProps"
+          v-model="dynamicValue"
+        />
+        <p class="text-xs text-gray-500">
+          Value: <code class="bg-gray-200 px-1 rounded">{{ dynamicValue }}</code>
+        </p>
+      </div>
+    </div>
+
+    <!-- Simple Select Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        3. Simple Select Functionality
+      </h2>
+      <div class="space-y-2 bg-blue-50 p-4 rounded border border-blue-200">
+        <label class="block text-sm font-medium text-blue-700">Basic Select Box</label>
+        <FFormItem
+          v-model="testSelectValue"
+          type="select"
+          :items="[
+            { label: 'Test Option 1', value: 'test1' },
+            { label: 'Test Option 2', value: 'test2' },
+            { label: 'Test Option 3', value: 'test3' }
+          ]"
+          placeholder="This is a test select box"
+        />
+        <div class="text-xs text-blue-600">
+          Selected Value: <code class="bg-blue-200 px-1 rounded">{{ testSelectValue }}</code>
         </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Section 2: Dynamic Form Generation from Configuration -->
-    <section class="p-4 border rounded-lg shadow">
-      <h3 class="text-xl font-semibold mb-4">
-        2. Dynamic Form Generation from Configuration
-      </h3>
-      <div class="space-y-4">
-        <div v-for="field in formFields" :key="field.name" class="space-y-2">
-          <label :for="field.name" class="block text-sm font-medium">{{ field.label }}</label>
-          <FFormItem
-            :id="field.name"
-            v-model="formData[field.name]"
-            v-bind="field.props"
-            @input="handleFieldChange(field.name, $event)"
-          />
-        </div>
-        <div class="bg-yellow-100 p-3 rounded text-sm mt-4">
-          <strong>Form Data (from dynamic generation):</strong>
-          <pre>{{ JSON.stringify(formData, null, 2) }}</pre>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 3: Conditional Rendering & Dynamic Component Type -->
-    <section class="p-4 border rounded-lg shadow">
-      <h3 class="text-xl font-semibold mb-4">
-        3. Conditional Rendering & Dynamic Component Type
-      </h3>
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-medium">Select Component Type</label>
-          <div class="text-xs text-gray-500 mb-1">
-            Current selection: {{ selectedType }}
-          </div>
-          <FFormItem
-            v-model="selectedType"
-            type="select"
-            :items="componentTypes"
-            placeholder="Choose component type"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium">Dynamically Rendered Component</label>
-          <div class="text-xs text-gray-500 mb-1">
-            Dynamic Props: <code class="bg-gray-100 px-1 rounded">{{ JSON.stringify(dynamicProps) }}</code>
-          </div>
-          <FFormItem
-            v-bind="dynamicProps"
-            v-model="dynamicValue"
-          />
-          <p class="text-xs text-gray-500 mt-1">
-            Value: <code class="bg-gray-100 px-1 rounded">{{ dynamicValue }}</code>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section 4: Responsive & Interactive Properties -->
-    <section class="p-4 border rounded-lg shadow">
-      <h3 class="text-xl font-semibold mb-4">
-        4. Responsive & Interactive Properties
-      </h3>
-      <div class="space-y-4">
+    <!-- Responsive Props Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        4. Responsive Configuration (Dynamic Props)
+      </h2>
+      <div class="space-y-2">
         <div class="flex space-x-2 mb-2">
           <button
-            class="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600 transition-colors"
+            class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm transition-colors"
             @click="toggleSize"
           >
             Toggle Size (Current: {{ currentSize }})
           </button>
           <button
-            class="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600 transition-colors"
+            class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded text-sm transition-colors"
             @click="toggleDisabled"
           >
-            Toggle Disabled (Current: {{ isDisabled ? 'Disabled' : 'Enabled' }})
+            Toggle Disabled (Current: {{ isDisabled ? 'Yes' : 'No' }})
           </button>
         </div>
         <FFormItem
@@ -140,236 +102,354 @@
           :disabled="isDisabled"
           :placeholder="dynamicPlaceholder"
         />
-        <p class="text-xs text-gray-500 mt-1">
-          Value: <code class="bg-gray-100 px-1 rounded">{{ responsiveValue }}</code>
-        </p>
       </div>
-    </section>
+    </div>
 
-    <!-- Section 5: Validation -->
-    <section class="p-4 border rounded-lg shadow">
-      <h3 class="text-xl font-semibold mb-4">
-        5. Validation Example
-      </h3>
+    <!-- Validation Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        5. Form Validation Example
+      </h2>
       <div class="space-y-2">
         <FFormItem
           v-bind="validationProps"
           v-model="validationValue"
           @blur="validateField"
         />
-        <p v-if="validationError" class="text-red-500 text-sm">
+        <p v-if="validationError" class="text-red-500 text-sm mt-1">
           {{ validationError }}
         </p>
-        <p v-else-if="validationValue && !validationError" class="text-green-500 text-sm">
-          Input is valid.
-        </p>
-        <p class="text-xs text-gray-500 mt-1">
-          Value: <code class="bg-gray-100 px-1 rounded">{{ validationValue }}</code>
-        </p>
       </div>
-    </section>
+    </div>
 
-    <!-- Section 6: UI Customization -->
-    <section class="p-4 border rounded-lg shadow">
-      <h3 class="text-xl font-semibold mb-4">
-        6. UI Customization (e.g., Trailing Icon)
-      </h3>
-      <div class="space-y-2">
-        <label class="block text-sm font-medium mb-1">Select with Custom Trailing Icon</label>
-        <FFormItem
-          v-model="customUiSelectValue"
-          type="select"
-          :items="statusItems"
-          :ui="{
-            trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200 i-heroicons-chevron-down-20-solid'
-          }"
-          class="w-48"
-          placeholder="Select status"
-          @change="(v) => { console.log('Custom UI Select Change:', v) }"
-        />
-        <p class="text-xs text-gray-500 mt-1">
-          Value: <code class="bg-gray-100 px-1 rounded">{{ customUiSelectValue }}</code>
-        </p>
+    <!-- Slot Passthrough Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        6. Slot Passthrough Test
+      </h2>
+      <div class="space-y-3 bg-green-50 p-4 rounded border border-green-200">
+        <!-- Input with leading slot -->
+        <div>
+          <label class="text-xs text-gray-700">Input with `leading` slot:</label>
+          <FFormItem v-model="inputWithLeadingSlotValue" type="input" placeholder="Input with leading slot">
+            <template #leading>
+              <span class="text-gray-500 text-xl ml-1">📧</span>
+            </template>
+          </FFormItem>
+        </div>
+        <!-- Input with trailing slot -->
+        <div>
+          <label class="text-xs text-gray-700">Input with `trailing` slot:</label>
+          <FFormItem v-model="inputWithTrailingSlotValue" type="input" placeholder="Input with trailing slot">
+            <template #trailing>
+              <span class="text-gray-500 text-xl mr-1">🔔</span>
+            </template>
+          </FFormItem>
+        </div>
+        <!-- Select with leading slot -->
+        <div>
+          <label class="text-xs text-gray-700">Select with `leading` slot:</label>
+          <FFormItem v-model="selectWithLeadingSlotValue" type="select" :items="slotTestSelectItems" placeholder="Select with leading slot">
+            <template #leading>
+              <span class="text-gray-500 text-xl ml-1">⭐</span>
+            </template>
+          </FFormItem>
+        </div>
+        <!-- Select with custom 'label' slot -->
+        <div>
+          <label class="text-xs text-gray-700">Select with custom `label` slot (selected value display):</label>
+          <FFormItem v-model="selectWithCustomLabelSlotValue" type="select" :items="slotTestSelectItemsComplex" placeholder="Select with custom label slot">
+            <template #label="{ modelValue }">
+              <span v-if="modelValue" class="text-purple-600 font-semibold">
+                ✨ {{ slotTestSelectItemsComplex.find(i => i.value === modelValue)?.label }} ✨
+              </span>
+              <span v-else class="text-gray-400 italic">Choose an option...</span>
+            </template>
+          </FFormItem>
+        </div>
+        <!-- Select with custom 'option' slot -->
+        <div>
+          <label class="text-xs text-gray-700">Select with custom `option` slot (dropdown items display):</label>
+          <FFormItem v-model="selectWithCustomOptionSlotValue" type="select" :items="slotTestSelectItemsComplex" placeholder="Select with custom option slot">
+            <template #option="{ option, selected }">
+              <div class="flex items-center justify-between w-full p-1">
+                <span :class="{ 'font-bold text-blue-600': selected, 'text-gray-800': !selected }">
+                  {{ option.icon }} {{ option.label }}
+                </span>
+                <span class="text-xs text-gray-500 italic">{{ option.description }}</span>
+              </div>
+            </template>
+          </FFormItem>
+        </div>
       </div>
-    </section>
+    </div>
 
-    <!-- Global Data Overview -->
-    <section class="p-4 border rounded-lg shadow bg-gray-50 mt-10">
-      <h3 class="text-xl font-semibold mb-4">
-        Global Data Overview
-      </h3>
-      <div class="bg-gray-100 p-4 rounded max-h-96 overflow-y-auto">
-        <pre class="text-sm">{{ JSON.stringify({
-          section1_basicExamples: {
-            basicInputText,
-            basicInputEmail,
-            basicInputNumber,
-            basicSelectString,
-            basicSelectObject
-          },
-          section2_dynamicForm: { formData },
-          section3_conditionalRendering: { selectedType, dynamicValue },
-          section4_responsiveProps: { responsiveValue, currentSize, isDisabled },
-          section5_validation: { validationValue, validationError },
-          section6_uiCustomization: { customUiSelectValue }
-        }, null, 2) }}</pre>
+    <!-- Attribute Passthrough Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        7. Attribute Passthrough Test
+      </h2>
+      <div class="space-y-3 bg-purple-50 p-4 rounded border border-purple-200">
+        <p class="text-sm text-purple-700">
+          Inspect these elements in browser dev tools to verify `id`, `name`, `data-testid`, `aria-label`, and `readonly` attributes.
+        </p>
+        <div>
+          <label class="text-xs text-gray-700">Input with various attributes:</label>
+          <FFormItem
+            id="attr-input-id-test"
+            v-model="attrTest_inputValue"
+            type="input"
+            placeholder="Input for attribute test"
+            name="attr-input-name-test"
+            :readonly="attrTest_isReadonly"
+            data-testid="formitem-input-attr-test"
+            aria-label="Input for attribute testing"
+            class="mt-1"
+          />
+          <button class="mt-1 text-xs px-2 py-0.5 bg-purple-200 rounded" @click="attrTest_isReadonly = !attrTest_isReadonly">
+            Toggle Readonly: {{ attrTest_isReadonly }}
+          </button>
+        </div>
+        <div>
+          <label class="text-xs text-gray-700">Select with various attributes:</label>
+          <FFormItem
+            id="attr-select-id-test"
+            v-model="attrTest_selectValue"
+            type="select"
+            :items="attrTest_selectItems"
+            placeholder="Select for attribute test"
+            name="attr-select-name-test"
+            data-testid="formitem-select-attr-test"
+            aria-label="Select for attribute testing"
+            class="mt-1"
+          />
+        </div>
       </div>
-    </section>
+    </div>
+
+    <!-- Comprehensive Event Handling Test -->
+    <div class="p-4 border rounded-lg shadow-sm bg-white">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        8. Comprehensive Event Handling Test
+      </h2>
+      <div class="space-y-3 bg-teal-50 p-4 rounded border border-teal-200">
+        <div>
+          <label class="text-xs text-gray-700">Input Event Test:</label>
+          <FFormItem
+            v-model="eventTest_inputValue"
+            type="input"
+            placeholder="Trigger events here (input)"
+            class="mt-1"
+            @focus="logEvent('Input Focus')"
+            @blur="logEvent('Input Blur')"
+            @input="logEvent('Input Input', $event)"
+            @change="logEvent('Input Change', $event)"
+          />
+        </div>
+        <div>
+          <label class="text-xs text-gray-700">Select Event Test:</label>
+          <FFormItem
+            v-model="eventTest_selectValue"
+            type="select"
+            :items="eventTest_selectItems"
+            placeholder="Trigger events here (select)"
+            class="mt-1"
+            @focus="logEvent('Select Focus')"
+            @blur="logEvent('Select Blur')"
+            @change="logEvent('Select Change', $event)"
+          />
+        </div>
+        <div class="mt-2">
+          <label class="text-xs text-gray-700">Event Log (Last 10 events):</label>
+          <pre class="text-xs bg-gray-100 p-2 rounded max-h-32 overflow-y-auto border border-gray-300 mt-1">
+            <div v-if="!eventLog.length" class="text-gray-500 italic">No events logged yet.</div>
+            <div v-for="(event, index) in eventLog" :key="index">{{ event }}</div>
+          </pre>
+          <button class="mt-1 text-xs px-2 py-0.5 bg-teal-200 rounded" @click="eventLog = []">
+            Clear Log
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Display -->
+    <div class="p-4 border rounded-lg shadow-sm bg-gray-50 mt-8">
+      <h2 class="text-xl font-semibold mb-3 text-gray-700">
+        9. Current Page Data Summary
+      </h2>
+      <pre class="text-xs bg-white p-3 rounded border border-gray-200 overflow-x-auto">{{ JSON.stringify({
+        formData,
+        dynamicValue,
+        selectedType,
+        testSelectValue,
+        responsiveValue,
+        currentSize,
+        isDisabled,
+        validationValue,
+        validationError,
+        inputWithLeadingSlotValue,
+        inputWithTrailingSlotValue,
+        selectWithLeadingSlotValue,
+        selectWithCustomLabelSlotValue,
+        selectWithCustomOptionSlotValue,
+        attrTest_inputValue,
+        attrTest_selectValue,
+        attrTest_isReadonly,
+        eventTest_inputValue,
+        eventTest_selectValue,
+        eventLogCount: eventLog.length
+      }, null, 2) }}</pre>
+    </div>
+
+    <!-- Standalone FFormItem for quick testing -->
+    <div class="mt-8 p-4 border rounded-lg shadow-sm bg-white">
+      <h3 class="text-lg font-medium mb-2 text-gray-600">
+        Quick Test Select
+      </h3>
+      <FFormItem
+        v-model="value"
+        type="select"
+        :items="items"
+        :ui="{
+          trailingIcon: 'group-data-[state=open]:rotate-180 transition-transform duration-200'
+        }"
+        class="w-48"
+        @change="(v) => { console.log('Standalone Select Changed:', v); logEvent('Standalone Select Change', v) }"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { FFormItem } from '#components'
+import { ClientOnly, FFormItem } from '#components' // Assuming FFormItem is auto-imported or globally registered
 import { ref, computed, reactive } from 'vue'
 
-// --- Section 1: Basic Usage & Input Types ---
-const basicInputText = ref('Initial text')
-const basicInputEmail = ref('test@example.com')
-const basicInputNumber = ref<number | string>(123)
-const basicSelectString = ref('Option B')
-const basicSelectObject = ref('y')
+// General items for standalone select
+const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
+const value = ref('Backlog')
 
-// --- Section 2: Dynamic Form Generation from Configuration ---
+// 1. Dynamic Props Binding
 interface FormData {
   username: string
   email: string
   age: string
   city: string
+  country: string
   [key: string]: string
 }
-
 const formData = reactive<FormData>({
-  username: 'johndoe',
-  email: 'john.doe@example.com',
+  username: 'JaneDoe',
+  email: 'jane.doe@example.com',
   age: '30',
-  city: 'beijing'
+  city: 'shanghai',
+  country: 'USA'
 })
-
 const formFields = ref([
-  {
-    name: 'username',
-    label: 'Username',
-    props: {
-      type: 'input',
-      placeholder: 'Enter username',
-      size: 'md',
-      required: true
-    }
-  },
-  {
-    name: 'email',
-    label: 'Email',
-    props: {
-      type: 'input',
-      placeholder: 'Enter email',
-      size: 'md',
-      inputType: 'email'
-    }
-  },
-  {
-    name: 'age',
-    label: 'Age',
-    props: {
-      type: 'input',
-      placeholder: 'Enter age',
-      size: 'sm',
-      inputType: 'number'
-    }
-  },
-  {
-    name: 'city',
-    label: 'City',
-    props: {
-      type: 'select',
-      placeholder: 'Select city',
-      items: [
-        { label: 'Beijing', value: 'beijing' },
-        { label: 'Shanghai', value: 'shanghai' },
-        { label: 'Guangzhou', value: 'guangzhou' }
-      ]
-    }
-  }
+  { name: 'username', label: 'Username', props: { type: 'input', placeholder: 'Enter username', size: 'md' } },
+  { name: 'email', label: 'Email', props: { type: 'input', placeholder: 'Enter email', inputType: 'email' } },
+  { name: 'age', label: 'Age', props: { type: 'input', placeholder: 'Enter age', inputType: 'number', size: 'sm' } },
+  { name: 'city', label: 'City', props: { type: 'select', placeholder: 'Select city', items: [{ label: 'Beijing', value: 'beijing' }, { label: 'Shanghai', value: 'shanghai' }, { label: 'Guangzhou', value: 'guangzhou' }] } }
 ])
-
-const handleFieldChange = (fieldName: string, value: any) => {
-  console.log(`Field ${fieldName} changed to:`, value)
+const handleFieldChange = (fieldName: string, fieldValue: any) => {
+  console.log(`Field ${fieldName} changed to:`, fieldValue)
+  logEvent(`Form Field ${fieldName} Input`, fieldValue)
 }
 
-// --- Section 3: Conditional Rendering & Dynamic Component Type ---
-const selectedType = ref('input')
-const dynamicValue = ref('Initial dynamic value')
-
+// 2. Dynamic Component Type Test
+const selectedType = ref<'input' | 'select'>('input')
+const dynamicValue = ref('')
 const componentTypes = [
-  { label: 'Input Box', value: 'input' },
-  { label: 'Selector', value: 'select' }
+  { label: 'Input Component', value: 'input' },
+  { label: 'Select Component', value: 'select' }
 ]
-
 const dynamicProps = computed(() => {
-  const baseProps: { type: string, placeholder: string, items?: Array<{ label: string, value: string }> } = {
+  const baseProps = {
     type: selectedType.value,
-    placeholder: `This is a dynamic ${selectedType.value === 'input' ? 'input box' : 'selector'}`
+    placeholder: `Dynamic ${selectedType.value === 'input' ? 'Input' : 'Select'}`
   }
-
   if (selectedType.value === 'select') {
-    return {
-      ...baseProps,
-      items: [
-        { label: 'Dynamic Option 1', value: 'dyn_opt1' },
-        { label: 'Dynamic Option 2', value: 'dyn_opt2' },
-        { label: 'Dynamic Option 3', value: 'dyn_opt3' }
-      ]
-    }
+    return { ...baseProps, items: [{ label: 'Dynamic Option 1', value: 'dyn_opt1' }, { label: 'Dynamic Option 2', value: 'dyn_opt2' }] }
   }
   return baseProps
 })
 
-// --- Section 4: Responsive & Interactive Properties ---
+// 3. Simple Select Test
+const testSelectValue = ref('test1')
+
+// 4. Responsive Props Test
 const currentSize = ref('md')
 const isDisabled = ref(false)
-const responsiveValue = ref('Responsive input text')
-
-const SIZES_AVAILABLE = ['xs', 'sm', 'md', 'lg', 'xl'] as const // Use as const for stricter typing
-type SizeType = typeof SIZES_AVAILABLE[number]
-let currentSizeIndex = SIZES_AVAILABLE.indexOf(currentSize.value as SizeType)
-
-const dynamicPlaceholder = computed(() =>
-  `Size: ${currentSize.value}, Disabled: ${isDisabled.value ? 'Yes' : 'No'}`
-)
-
+const responsiveValue = ref('Responsive text')
+const sizes = ['xs', 'sm', 'md', 'lg', 'xl']
+let sizeIndex = sizes.indexOf(currentSize.value)
+const dynamicPlaceholder = computed(() => `Size: ${currentSize.value}, Disabled: ${isDisabled.value ? 'Yes' : 'No'}`)
 const toggleSize = () => {
-  currentSizeIndex = (currentSizeIndex + 1) % SIZES_AVAILABLE.length
-  currentSize.value = SIZES_AVAILABLE[currentSizeIndex]
+  sizeIndex = (sizeIndex + 1) % sizes.length
+  currentSize.value = sizes[sizeIndex]
 }
+const toggleDisabled = () => { isDisabled.value = !isDisabled.value }
 
-const toggleDisabled = () => {
-  isDisabled.value = !isDisabled.value
-}
-
-// --- Section 5: Validation ---
+// 5. Validation Test
 const validationValue = ref('')
 const validationError = ref('')
-
 const validationProps = computed(() => ({
   type: 'input',
-  placeholder: 'Enter 6-20 characters',
+  placeholder: 'Enter 6-20 chars',
   size: 'md',
-  color: validationError.value ? 'red' : undefined // Use undefined for default or primary color
+  color: validationError.value ? 'red' : 'primary' // Assuming color prop exists and works
 }))
-
 const validateField = () => {
-  const value = validationValue.value
-  if (!value) {
-    validationError.value = 'This field is required.'
-  } else if (value.length < 6) {
-    validationError.value = 'Minimum 6 characters required.'
-  } else if (value.length > 20) {
-    validationError.value = 'Maximum 20 characters allowed.'
-  } else {
-    validationError.value = ''
-  }
+  const val = validationValue.value
+  if (!val) validationError.value = 'This field is required.'
+  else if (val.length < 6) validationError.value = 'Minimum 6 characters.'
+  else if (val.length > 20) validationError.value = 'Maximum 20 characters.'
+  else validationError.value = ''
 }
 
-// --- Section 6: UI Customization ---
-const statusItems = ref(['Backlog', 'Todo', 'In Progress', 'Done', 'Archived'])
-const customUiSelectValue = ref('Todo')
+// 6. Slot Passthrough Test
+const inputWithLeadingSlotValue = ref('leading@example.com')
+const inputWithTrailingSlotValue = ref('trailing_notification')
+const selectWithLeadingSlotValue = ref('B')
+const slotTestSelectItems = ref(['Option A', 'Option B', 'Option C'])
+const slotTestSelectItemsComplex = ref([
+  { label: 'Alpha Item', value: 'alpha', description: 'First letter', icon: '🍎' },
+  { label: 'Beta Item', value: 'beta', description: 'Second letter', icon: '🍌' },
+  { label: 'Gamma Item', value: 'gamma', description: 'Third letter', icon: '🍒' }
+])
+const selectWithCustomLabelSlotValue = ref('beta')
+const selectWithCustomOptionSlotValue = ref('gamma')
+
+// 7. Attribute Passthrough Test
+const attrTest_inputValue = ref('Readonly test')
+const attrTest_selectValue = ref('AttrOpt2')
+const attrTest_selectItems = ref(['AttrOpt1', 'AttrOpt2', 'AttrOpt3'])
+const attrTest_isReadonly = ref(true)
+
+// 8. Comprehensive Event Handling Test
+const eventTest_inputValue = ref('')
+const eventTest_selectValue = ref('')
+const eventTest_selectItems = ref(['EventOpt A', 'EventOpt B'])
+const eventLog = ref<string[]>([])
+const logEvent = (eventName: string, eventData?: any) => {
+  const timestamp = new Date().toLocaleTimeString()
+  let message = `${timestamp} - ${eventName}`
+  if (eventData !== undefined && (typeof eventData === 'string' || typeof eventData === 'number' || typeof eventData === 'boolean')) {
+    message += `: ${eventData}`
+  } else if (eventData !== undefined) {
+    message += `: (see console for details)` // Avoid complex objects in this simple log
+    console.log(`${eventName} data:`, eventData)
+  }
+  eventLog.value.unshift(message)
+  if (eventLog.value.length > 10) {
+    eventLog.value.pop()
+  }
+  console.log('Playground Event Logged:', message)
+}
 </script>
+
+<style scoped>
+/* Optional: Add some global styling for the page if needed */
+code {
+  font-family: 'Courier New', Courier, monospace;
+}
+</style>
