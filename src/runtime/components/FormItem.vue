@@ -16,6 +16,7 @@ import type theme from '#build/fantasies/form-item'
 import type { ComponentConfig } from '../types/tv'
 import type { AppConfig } from '@nuxt/schema'
 import type { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
+import { useLocaleFantasies } from '../composables/useLocaleFantasies'
 
 type FormItem = ComponentConfig<typeof theme, AppConfig, 'formItem', 'fantasies'>
 
@@ -56,11 +57,31 @@ const componentMap = {
 <script setup lang="ts">
 const attrs: any = useAttrs()
 defineProps<FormItemProps>()
-console.log(attrs)
+const { t } = useLocaleFantasies()
 </script>
 
 <template>
-  <component :is="componentMap[type]" v-bind="attrs" v-on="attrs.emits || {}">
+  <template v-if="type === 'color-picker'">
+    <UPopover
+      :content="{
+        align: 'center',
+        side: 'right'
+      }"
+    >
+      <UButton color="neutral" variant="outline">
+        <template #leading>
+          <div class="w-4 h-4 rounded border border-gray-300 dark:border-gray-600 shadow-sm" :style="{ backgroundColor: attrs.modelValue || attrs['model-value'] || '#000000' }" />
+        </template>
+        <span class="text-sm text-gray-700 dark:text-gray-300">
+          {{ attrs.modelValue || attrs['model-value'] || t('chooseColor') }}
+        </span>
+      </UButton>
+      <template #content>
+        <colorPicker v-bind="attrs" v-on="attrs.emits || {}" />
+      </template>
+    </UPopover>
+  </template>
+  <component :is="componentMap[type]" v-else v-bind="attrs" v-on="attrs.emits || {}">
     <template
       v-for="(slotRenderFn, slotName) in attrs.slots"
       :key="slotName"
