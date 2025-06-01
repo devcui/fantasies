@@ -4,7 +4,7 @@ import { defineProps, useAttrs, defineEmits } from 'vue'
 import type theme from '#build/fantasies/form-field'
 import type { ComponentConfig } from '../types/tv'
 import type { AppConfig } from '@nuxt/schema'
-import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
+import type { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import type { FormItemProps } from '../types'
 import FormItem from './FormItem.vue'
 
@@ -14,7 +14,8 @@ type Unzip<T> = /* @vue-ignore */ ComponentProps<T>
   & {
     widget?: FormItemProps
     inline?: boolean
-    slots?: /* @vue-ignore */ ComponentSlots<typeof FormField>
+    emits?: /* @vue-ignore */ Partial<ComponentEmit<T>>
+    slots?: /* @vue-ignore */ Partial<ComponentSlots<T>>
   }
 
 export type FormFieldProps = Unzip<typeof FormField>
@@ -34,7 +35,7 @@ const handleUpdateModelValue = (value: any) => {
 </script>
 
 <template>
-  <FormField v-bind="attrs">
+  <FormField v-bind="attrs" v-on="attrs.emits || {}">
     <template
       v-for="(slotRenderFn, slotName) in attrs.slots"
       :key="slotName"
@@ -46,6 +47,7 @@ const handleUpdateModelValue = (value: any) => {
       v-bind="attrs.widget"
       :inline="attrs.inline"
       :model-value="attrs['model-value']"
+      v-on="attrs.widget.emits || {}"
       @update:model-value="handleUpdateModelValue"
     />
   </FormField>

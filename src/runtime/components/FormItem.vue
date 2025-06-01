@@ -11,7 +11,7 @@ import Switch from '@nuxt/ui/components/Switch.vue'
 import Textarea from '@nuxt/ui/components/Textarea.vue'
 import ColorPicker from '@nuxt/ui/components/ColorPicker.vue'
 import Slider from '@nuxt/ui/components/Slider.vue'
-import { defineProps, useAttrs, useSlots } from 'vue'
+import { defineProps, useAttrs } from 'vue'
 import type theme from '#build/fantasies/form-item'
 import type { ComponentConfig } from '../types/tv'
 import type { AppConfig } from '@nuxt/schema'
@@ -20,8 +20,8 @@ import type { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-componen
 type FormItem = ComponentConfig<typeof theme, AppConfig, 'formItem', 'fantasies'>
 
 type Unzip<T> = /* @vue-ignore */ ComponentProps<T>
-  & /* @vue-ignore */ ComponentEmit<T>
-  & { inline?: boolean, slots?: /* @vue-ignore */ ComponentSlots<T> }
+  & { emits?: /* @vue-ignore */ Partial<ComponentEmit<T>> }
+  & { inline?: boolean, slots?: /* @vue-ignore */ Partial<ComponentSlots<T>> }
 
 export type FormItemProps =
   | { type: 'input' } & Unzip<typeof Input>
@@ -56,10 +56,11 @@ const componentMap = {
 <script setup lang="ts">
 const attrs: any = useAttrs()
 defineProps<FormItemProps>()
+console.log(attrs)
 </script>
 
 <template>
-  <component :is="componentMap[type]" v-bind="attrs">
+  <component :is="componentMap[type]" v-bind="attrs" v-on="attrs.emits || {}">
     <template
       v-for="(slotRenderFn, slotName) in attrs.slots"
       :key="slotName"

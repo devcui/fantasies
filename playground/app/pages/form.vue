@@ -62,6 +62,11 @@ const form: FormProps = {
   schema: schema,
   state: state,
   inline: true,
+  emits: {
+    submit: (e: FormSubmitEvent<FormSchema>) => {
+      console.log('表单提交事件:', e)
+    }
+  },
   fields: {
     name: {
       label: '姓名',
@@ -71,7 +76,12 @@ const form: FormProps = {
         modelValue: state.name,
         type: 'input',
         placeholder: '例如：张三',
-        icon: 'i-heroicons-user'
+        icon: 'i-heroicons-user',
+        emits: {
+          change: (value: any) => {
+            console.log(value)
+          }
+        }
       }
     },
     email: {
@@ -141,10 +151,7 @@ const form: FormProps = {
       label: '期望薪资',
       description: '单位：元/月',
       widget: {
-        type: 'input-number',
-        placeholder: '请输入期望薪资',
-        min: 1000,
-        step: 1000
+        type: 'input-number'
       }
     },
     favoriteColor: {
@@ -205,7 +212,7 @@ const handleReset = () => {
       <!-- 表单区域 -->
       <div class="lg:col-span-2">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
-          <FForm v-bind="form" class="space-y-6" @submit="submit($event)">
+          <FForm v-bind="form" class="space-y-6">
             <template #default>
               <div class="flex gap-4 mt-8">
                 <button

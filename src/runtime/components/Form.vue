@@ -5,7 +5,7 @@ import { defineProps, useAttrs } from 'vue'
 import type theme from '#build/fantasies/form'
 import type { ComponentConfig } from '../types/tv'
 import type { AppConfig } from '@nuxt/schema'
-import type { ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
+import type { ComponentEmit, ComponentProps, ComponentSlots } from 'vue-component-type-helpers'
 import type { FormFieldProps } from '../types'
 import FormField from './FormField.vue'
 import { useLocaleFantasies } from '../composables/useLocaleFantasies'
@@ -18,7 +18,8 @@ type Unzip<T> = /* @vue-ignore */ ComponentProps<T>
       [key: string]: FormFieldProps
     }
     inline?: boolean
-    slots?: /* @vue-ignore */ ComponentSlots<typeof Form>
+    emits?: /* @vue-ignore */Partial<ComponentEmit<T>>
+    slots?: /* @vue-ignore */ Partial<ComponentSlots<T>>
   }
 
 export type FormProps = Unzip<typeof Form>
@@ -40,7 +41,7 @@ const handleFieldUpdate = (fieldName: string | number, value: any) => {
 </script>
 
 <template>
-  <Form v-bind="attrs">
+  <Form v-bind="attrs" v-on="attrs.emits || {}">
     <template
       v-for="(slotRenderFn, slotName) in attrs.slots"
       :key="slotName"
@@ -57,6 +58,7 @@ const handleFieldUpdate = (fieldName: string | number, value: any) => {
         :inline="attrs.inline"
         :model-value="attrs.state?.[fieldName]"
         @update:model-value="(value) => handleFieldUpdate(fieldName, value)"
+        v-on="field.emits || {}"
       />
     </template>
 

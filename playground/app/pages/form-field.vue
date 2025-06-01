@@ -56,25 +56,26 @@ const roleField: FormFieldProps = {
   name: 'role',
   required: true,
   slots: {
-    label: ({ label }) => h('span', { class: 'text-purple-700 dark:text-purple-300 font-bold' }, `${label} (FFormField Label Slot)`),
-    description: ({ description }) => h('span', { class: 'text-xs text-purple-500 dark:text-purple-400 mt-1' }, `Hint: ${description} (FFormField Description Slot)`),
-    help: () => h('span', { class: 'text-xs text-orange-500 dark:text-orange-400 mt-1' }, 'This is a custom help slot for Role field!')
+    default: () => [h('span', { class: 'text-lg text-purple-600 dark:text-purple-400' }, '请选择您的角色')],
+    label: ({ label }) => [h('span', { class: 'text-purple-700 dark:text-purple-300 font-bold' }, `${label} (FFormField Label Slot)`)],
+    description: ({ description }) => [h('span', { class: 'text-xs text-purple-500 dark:text-purple-400 mt-1' }, `Hint: ${description} (FFormField Description Slot)`)],
+    help: () => [h('span', { class: 'text-xs text-orange-500 dark:text-orange-400 mt-1' }, 'This is a custom help slot for Role field!')]
   },
   widget: {
     type: 'select-menu',
-    items: roleOptions, // Changed from items to options
+    items: roleOptions,
     modelValue: state.role,
     placeholder: '请选择一个角色',
     slots: {
-      leading: () => h('span', { class: 'i-heroicons-user-circle text-gray-400 dark:text-gray-500 w-5 h-5' }),
+      leading: () => [h('span', { class: 'i-heroicons-user-circle text-gray-400 dark:text-gray-500 w-5 h-5' })],
       default: ({ modelValue, open, selectedOption }: any) => {
         const currentLabel = selectedOption ? selectedOption.label : '请选择...'
-        return h('span', { class: 'text-green-600 dark:text-green-400' },
+        return [h('span', { class: 'text-green-600 dark:text-green-400' },
           `${currentLabel} ${open ? '🔼' : '🔽'} (Widget Slot)`
-        )
+        )]
       },
       item: ({ item, active, selected }: any) => {
-        return h('div',
+        return [h('div',
           {
             class: `px-2 py-1.5 text-sm cursor-pointer flex items-center justify-between ${active ? 'bg-gray-100 dark:bg-gray-700' : ''} ${selected ? 'font-semibold text-green-700 dark:text-green-300' : ''}`
           },
@@ -82,7 +83,7 @@ const roleField: FormFieldProps = {
             h('span', `角色: ${item.label}`),
             selected ? h('span', { class: 'i-heroicons-check-circle w-4 h-4 text-green-500' }) : null
           ]
-        )
+        )]
       }
     }
   }
