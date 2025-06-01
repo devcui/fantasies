@@ -89,8 +89,8 @@ Fantasies extends @nuxt/ui with additional components and utilities, providing a
 
 ## Roadmap
 
-- [ ] Dynamic form component with validation
-- [ ] Dynamic table component with sorting and filtering
+- [x] JS Driver form component with validation
+- [ ] JS Driver table component with sorting and filtering
 - [ ] Paginated table with automatic URL-based requests
 - [ ] Comprehensive test suite
 - [ ] Documentation website
