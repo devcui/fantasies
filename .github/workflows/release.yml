@@ -15,7 +15,7 @@ jobs:
         node: [22]
 
     env:
-      NUXT_GITHUB_TOKEN: ${{ secrets.NUXT_GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
 
     steps:
       - name: Checkout
@@ -29,6 +29,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install
@@ -48,7 +49,11 @@ jobs:
       - name: Test (vue)
         run: pnpm run test:vue run
 
+      - name: Build
+        run: pnpm run build
+
+      - name: Make release script executable
+        run: chmod +x ./scripts/release.sh
+
       - name: Publish
         run: ./scripts/release.sh
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
