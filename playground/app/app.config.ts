@@ -4,12 +4,5 @@ export default defineAppConfig({
       primary: 'sky',
       neutral: 'slate'
     }
-  },
-  fantasies: {
-    paper: {
-      P: {
-
-      }
-    }
   }
 })

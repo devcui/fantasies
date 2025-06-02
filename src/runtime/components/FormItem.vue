@@ -11,6 +11,8 @@ import Switch from '@nuxt/ui/components/Switch.vue'
 import Textarea from '@nuxt/ui/components/Textarea.vue'
 import ColorPicker from '@nuxt/ui/components/ColorPicker.vue'
 import Slider from '@nuxt/ui/components/Slider.vue'
+import Popover from '@nuxt/ui/components/Popover.vue'
+import Button from '@nuxt/ui/components/Button.vue'
 import { defineProps, useAttrs } from 'vue'
 import type theme from '#build/fantasies/form-item'
 import type { ComponentConfig } from '../types/tv'
@@ -62,24 +64,24 @@ const { t } = useLocaleFantasies()
 
 <template>
   <template v-if="type === 'color-picker'">
-    <UPopover
+    <Popover
       :content="{
         align: 'center',
         side: 'right'
       }"
     >
-      <UButton color="neutral" variant="outline">
+      <Button color="neutral" variant="outline">
         <template #leading>
           <div class="w-4 h-4 rounded border border-gray-300 dark:border-gray-600 shadow-sm" :style="{ backgroundColor: attrs.modelValue || attrs['model-value'] || '#000000' }" />
         </template>
         <span class="text-sm text-gray-700 dark:text-gray-300">
           {{ attrs.modelValue || attrs['model-value'] || t('chooseColor') }}
         </span>
-      </UButton>
+      </Button>
       <template #content>
-        <colorPicker v-bind="attrs" v-on="attrs.emits || {}" />
+        <ColorPicker v-bind="attrs" v-on="attrs.emits || {}" />
       </template>
-    </UPopover>
+    </Popover>
   </template>
   <component :is="componentMap[type]" v-else v-bind="attrs" v-on="attrs.emits || {}">
     <template

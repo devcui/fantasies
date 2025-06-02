@@ -55,7 +55,7 @@ export default defineAppConfig({
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - pnpm
 
 ### Getting Started
@@ -89,12 +89,15 @@ Fantasies extends @nuxt/ui with additional components and utilities, providing a
 
 ## Roadmap
 
+- [x] MDC Prose components
+- [x] Read Nuxt UI theme variables and merge rules
+- [ ] Generate MDC themes like Nuxt UI
+- [ ] Documentation website
+- [ ] Project homepage
 - [x] JS Driver form component with validation
 - [ ] JS Driver table component with sorting and filtering
 - [ ] Paginated table with automatic URL-based requests
 - [ ] Comprehensive test suite
-- [ ] Documentation website
-- [ ] Project homepage
 
 ## Contributing
 

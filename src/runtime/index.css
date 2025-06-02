@@ -1,2 +1,9 @@
 @import '@nuxt/ui';
+@import '#build/fantasies.css';
 @source './components';
+
+@layer base {
+  :root {
+    --ui-header-height: --spacing(16);
+  }
+}

@@ -8,10 +8,9 @@ on:
 jobs:
   publish:
     runs-on: ${{ matrix.os }}
-
     strategy:
       matrix:
-        os: [ubuntu-latest] # macos-latest, windows-latest
+        os: [ubuntu-latest]
         node: [22]
 
     env:
@@ -20,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -52,8 +53,7 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Make release script executable
-        run: chmod +x ./scripts/release.sh
-
       - name: Publish
         run: ./scripts/release.sh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.N_TOKEN }}

@@ -4,14 +4,12 @@ import { hasNuxtModule, addTemplate, addTypeTemplate } from '@nuxt/kit'
 import type { Nuxt, NuxtTemplate, NuxtTypeTemplate, NuxtOptions } from '@nuxt/schema'
 import type { ModuleOptions } from './module'
 import * as theme from './theme'
-import * as themePaper from './theme/paper'
-import * as themeContent from './theme/content'
+import * as themeProse from './theme/prose'
 
 export function getTemplates(options: ModuleOptions, uiOptions: NuxtOptions['ui'], nuxt?: Nuxt) {
   const templates: NuxtTemplate[] = []
 
-  let hasPaper = false
-  let hasContent = false
+  let hasProse = false
 
   function writeThemeTemplate(theme: Record<string, any>, path?: string) {
     for (const component in theme) {
@@ -68,24 +66,18 @@ export function getTemplates(options: ModuleOptions, uiOptions: NuxtOptions['ui'
     }
   }
 
-  if (!!nuxt && ((hasNuxtModule('@nuxtjs/mdc') || options.mdc) || (hasNuxtModule('@nuxt/content') || options.content))) {
-    hasPaper = true
+  if (!!nuxt && ((hasNuxtModule('@nuxtjs/mdc') || options.mdc))) {
+    hasProse = true
 
-    const path = 'paper'
+    const path = 'prose'
 
-    writeThemeTemplate(themePaper, path)
+    writeThemeTemplate(themeProse, path)
 
     templates.push({
       filename: `fantasies/${path}/index.ts`,
       write: true,
-      getContents: () => Object.keys(themePaper).map(component => `export { default as ${component} } from './${kebabCase(component)}'`).join('\n')
+      getContents: () => Object.keys(themeProse).map(component => `export { default as ${component} } from './${kebabCase(component)}'`).join('\n')
     })
-  }
-
-  if (!!nuxt && (hasNuxtModule('@nuxt/content') || options.content)) {
-    hasContent = true
-
-    writeThemeTemplate(themeContent, 'content')
   }
 
   writeThemeTemplate(theme)
@@ -101,11 +93,8 @@ export function getTemplates(options: ModuleOptions, uiOptions: NuxtOptions['ui'
     write: true,
     getContents: () => {
       let contents = Object.keys(theme).map(component => `export { default as ${component} } from './${kebabCase(component)}'`).join('\n')
-      if (hasContent) {
-        contents += '\n'
-        contents += Object.keys(themeContent).map(component => `export { default as ${component} } from './content/${kebabCase(component)}'`).join('\n')
-      }
-      if (hasPaper) contents += `\nexport * as paper from './paper'\n`
+
+      if (hasProse) contents += `\nexport * as prose from './prose'\n`
       return contents
     }
   })

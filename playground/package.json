@@ -13,8 +13,7 @@
     "@iconify-json/logos": "^1.2.4",
     "@iconify-json/lucide": "^1.2.44",
     "@iconify-json/simple-icons": "^1.2.35",
-    "@fantasies/ui": "../",
-    "@nuxthub/core": "^0.8.27",
+    "@fantasies/ui": "workspace:*",
     "nuxt": "^3.17.4",
     "workers-ai-provider": "^0.5.2",
     "zod": "^3.25.28"

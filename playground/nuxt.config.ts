@@ -1,8 +1,7 @@
 export default defineNuxtConfig({
   modules: [
     '@fantasies/ui',
-    '@nuxtjs/mdc',
-    '@nuxthub/core'
+    '@nuxtjs/mdc'
   ],
   devtools: {
     enabled: true

@@ -48,8 +48,7 @@ export const NuxtFantasiesPlugin = createUnplugin<NuxtFantasiesOptions | undefin
     cwd: join(runtimeDir, 'components'),
     ignore: [
       !options.colorMode && 'color-mode/**/*.vue',
-      'content/*.vue',
-      'paper/**/*.vue'
+      'prose/**/*.vue'
     ].filter(Boolean) as string[]
   })
   const componentNames = new Set(components.map(c => `${options.fantasies.prefix}${c.split('/').pop()?.replace(/\.vue$/, '')}`))

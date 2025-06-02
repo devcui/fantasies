@@ -1,0 +1,5 @@
+@import "tailwindcss" theme(static) source("../../../..");
+@import "@fantasies/ui";
+
+@source "../../../content/**/*";
+@source "../../../node_modules/.c12";
