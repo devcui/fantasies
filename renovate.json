@@ -5,10 +5,10 @@
   "lockFileMaintenance": {
     "enabled": true
   },
-  "baseBranches": ["v1", "v3"],
+  "baseBranches": ["main"],
   "packageRules": [{
-    "matchBaseBranches": ["v3"],
-    "labels": ["v3"]
+    "matchBaseBranches": ["main"],
+    "labels": ["main"]
   }, {
     "matchDepTypes": ["peerDependencies"],
     "enabled": false

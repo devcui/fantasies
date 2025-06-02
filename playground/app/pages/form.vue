@@ -256,7 +256,7 @@ const handleReset = () => {
             <div>
               <span class="font-medium text-gray-700 dark:text-gray-300">角色:</span>
               <span class="ml-2 text-gray-900 dark:text-gray-100">
-                {{ roleOptions.find(r => r.value === state.role)?.label || '未选择' }}
+                <!-- {{ roleOptions.find(r => r.value === state.role)?.label || '未选择' }} -->
               </span>
             </div>
             <div>
