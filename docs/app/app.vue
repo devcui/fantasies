@@ -35,14 +35,8 @@ useFaviconFromTheme()
 
 <template>
   <UApp :toaster="appConfig.toaster">
-    <NuxtLoadingIndicator color="var(--ui-primary)" :height="2" />
-    <Header />
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
-    <Footer />
-    <ClientOnly>
-      <UInput placeholder="search" />
-    </ClientOnly>
   </UApp>
 </template>

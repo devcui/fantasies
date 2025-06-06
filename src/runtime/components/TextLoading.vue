@@ -13,6 +13,7 @@ export interface TextLoadingProps {
   size?: TextLoading['variants']['size']
   fontWeight?: TextLoading['variants']['fontWeight']
   ui?: TextLoading['slots']
+  onComplete?: () => void
 }
 </script>
 
@@ -29,6 +30,9 @@ const props = withDefaults(defineProps<TextLoadingProps>(), {
   opacity: 0.3
 })
 defineSlots<{ default: (props: TextLoadingProps) => void }>()
+const emit = defineEmits<{
+  (e: 'complete'): void
+}>()
 
 const appConfig = useAppConfig() as TextLoading['AppConfig']
 
@@ -53,9 +57,10 @@ onMounted(() => {
   if (reveal.value) {
     $gsap.to(reveal.value, {
       clipPath: 'inset(0% 0 0 0)',
-      duration: 5,
+      duration: props.duration,
       ease: 'power2.out',
-      delay: 0.2
+      delay: props.delay,
+      onComplete: () => emit('complete')
     })
   }
 })
@@ -63,7 +68,7 @@ onMounted(() => {
 
 <template>
   <div :class="ui.root()" style="clear:both;">
-    <div :class="ui.shaded()" :style="{ opacity: props.opacity }">
+    <div :class="ui.shaded()" :style="{ opacity: props.opacity, color: '#ffffff' }">
       <slot v-bind="props" />
     </div>
     <div
