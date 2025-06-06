@@ -46,6 +46,10 @@ const ui = computed(() => tv({
   size: props.size
 }))
 
+const colorStyle = computed(() => {
+  return props.color.startsWith('#') ? props.color : `var(--ui-color-${props.color}-500)`
+})
+
 onMounted(() => {
   if (reveal.value && shaded.value) {
     $gsap.set(shaded.value, {
@@ -54,7 +58,7 @@ onMounted(() => {
 
     $gsap.set(reveal.value, {
       clipPath: 'inset(100% 0 0 0)',
-      color: props.color.startsWith('#') ? props.color : `var(--ui-color-${props.color}-500)`
+      color: colorStyle.value
     })
 
     $gsap.to(reveal.value, {

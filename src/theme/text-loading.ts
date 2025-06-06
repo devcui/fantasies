@@ -5,7 +5,7 @@ const fontWeight = ['font-thin', 'font-extralight', 'font-light', 'font-normal',
 
 export default (options: Required<NuxtOptions['ui']>) => ({
   slots: {
-    root: ['relative inline-block'],
+    root: 'relative inline-block ',
     shaded: 'overflow-hidden absolute inset-0 z-[1]',
     reveal: 'overflow-hidden absolute inset-0 z-[2]',
     place: 'relative overflow-hidden invisible'
