@@ -34,7 +34,6 @@ const appConfig = useAppConfig() as TextLoading['AppConfig']
 
 const { $gsap } = useNuxtApp()
 
-const shaded = ref<HTMLDivElement>()
 const reveal = ref<HTMLDivElement>()
 
 const ui = computed(() => tv({
@@ -51,16 +50,7 @@ const colorStyle = computed(() => {
 })
 
 onMounted(() => {
-  if (reveal.value && shaded.value) {
-    $gsap.set(shaded.value, {
-      opacity: 0.3
-    })
-
-    $gsap.set(reveal.value, {
-      clipPath: 'inset(100% 0 0 0)',
-      color: colorStyle.value
-    })
-
+  if (reveal.value) {
     $gsap.to(reveal.value, {
       clipPath: 'inset(0% 0 0 0)',
       duration: 5,
@@ -72,11 +62,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="ui.root()">
-    <div ref="shaded" :class="ui.shaded()">
+  <div :class="ui.root()" style="clear:both;">
+    <div :class="ui.shaded()" :style="{ opacity: props.opacity }">
       <slot v-bind="props" />
     </div>
-    <div ref="reveal" :class="ui.reveal()">
+    <div
+      ref="reveal"
+      :class="ui.reveal()"
+      :style="{ clipPath: 'inset(100% 0 0 0)', color: colorStyle }"
+    >
       <slot v-bind="props" />
     </div>
     <div :class="ui.place()" aria-hidden="true">
