@@ -5,27 +5,13 @@ const fontWeight = ['font-thin', 'font-extralight', 'font-light', 'font-normal',
 
 export default (options: Required<NuxtOptions['ui']>) => ({
   slots: {
-    base: ['']
+    root: ['relative inline-block'],
+    shaded: 'overflow-hidden absolute inset-0 z-[1]',
+    reveal: 'overflow-hidden absolute inset-0 z-[2]',
+    place: 'relative overflow-hidden invisible'
   },
   variants: {
-    size: Object.fromEntries(size.map(s => [s, { base: s }])),
-    fontWeight: Object.fromEntries(fontWeight.map(fw => [fw, { base: fw }])),
-    color: {
-      ...Object.fromEntries((options.theme.colors || []).map((color: string) => [color, ''])),
-      neutral: ''
-    }
-  },
-  compoundVariants: [
-    ...(options.theme.colors || []).map((color: string) => ({
-      color,
-      class: {
-        base: `text-${color} dark:text-${color}`
-      }
-    }))
-  ],
-  defaultVariants: {
-    size: 'text-base',
-    fontWeight: 'font-normal',
-    color: 'primary'
+    size: Object.fromEntries(size.map(s => [s, { root: s }])),
+    fontWeight: Object.fromEntries(fontWeight.map(fw => [fw, { root: fw }]))
   }
 })

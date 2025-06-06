@@ -7,5 +7,7 @@ definePageMeta({
 
 <template>
   <h1>Index</h1>
-  <FTextLoading :color="'primary'" :size="'text-lg'" :font-weight="'font-semibold'" />
+  <FTextLoading :color="'primary'" :size="'text-8xl'" :font-weight="'font-semibold'">
+    你好
+  </FTextLoading>
 </template>
