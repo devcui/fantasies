@@ -3,7 +3,8 @@ const routes = [
   { path: '/form', name: 'Form 组件', description: '测试 Form 组件的基本功能、按钮列表、插槽和事件处理' },
   { path: '/form-field', name: 'FormField 组件', description: '测试 Form 组件的基本功能、按钮列表、插槽和事件处理' },
   { path: '/form-item', name: 'FormItem 组件', description: '测试 Form 组件的基本功能、按钮列表、插槽和事件处理' },
-  { path: '/button', name: 'Button 组件', description: '测试 Button 组件的各种变体和功能' }
+  { path: '/button', name: 'Button 组件', description: '测试 Button 组件的各种变体和功能' },
+  { path: '/color-list', name: 'Button 组件', description: '测试 Button 组件的各种变体和功能' }
 ]
 </script>
 

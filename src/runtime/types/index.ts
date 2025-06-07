@@ -1,3 +1,4 @@
+export * from '../components/ColorList.vue'
 export * from '../components/Form.vue'
 export * from '../components/FormField.vue'
 export * from '../components/FormItem.vue'
