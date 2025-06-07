@@ -3,6 +3,18 @@
     :value="state"
     @on-change="pick($event)"
   />
+  <FColorList
+    :size="'small'"
+    :shape="'circle'"
+    :value="state"
+    @on-change="pick($event)"
+  />
+  <FColorList
+    :size="'large'"
+    :shape="'square'"
+    :value="state"
+    @on-change="pick($event)"
+  />
 </template>
 
 <script setup lang="ts">
