@@ -45,8 +45,8 @@ onMounted(async () => {
       </div>
     </FTextLoading>
 
-    <div v-if="state.titleCompiled" class="mt-[8rem] min-w-[30%]">
-      <div class="flex flex-row justify-between items-center">
+    <div class="mt-[8rem] min-w-[30%] min-h-[3rem]">
+      <div v-if="state.titleCompiled" class="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
         <FTextBlink
           :size="'text-lg'"
           :opacity="0"
