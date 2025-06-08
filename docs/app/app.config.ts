@@ -9,6 +9,9 @@ export default defineAppConfig({
     blackAsPrimary: false
   },
   ui: {
+    colors: {
+      primary: 'black'
+    }
   },
   fantasies: {
   }

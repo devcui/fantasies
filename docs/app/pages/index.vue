@@ -11,12 +11,8 @@ const state = reactive({
 })
 
 onMounted(async () => {
-  await useSoundFrom({
-    url: '/sounds/prelude.mp3',
-    autoPlay: true,
-    volume: 0.5,
-    loop: true
-  })
+  const { pixiSound } = await usePixi()
+  pixiSound.sound.play('prelude', { volume: 0.5, loop: true })
 })
 
 const colorMode = useColorMode()
@@ -30,14 +26,14 @@ const isDark = computed({
   }
 })
 
-const choose = (action: 'play' | 'continue') => {
-  useSoundFrom({
-    url: '/sounds/select.mp3',
-    autoPlay: true,
-    volume: 0.5
-  }).then(() => {
-    state.choosed = action
-  })
+const choose = async (action: 'play' | 'continue') => {
+  const router = useRouter()
+  state.choosed = action
+  const { pixiSound } = await usePixi()
+  pixiSound.sound.play('select', { volume: 0.5 })
+  setTimeout(() => {
+    router.push('/docs')
+  }, 500)
 }
 </script>
 
