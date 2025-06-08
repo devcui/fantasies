@@ -6,7 +6,7 @@ import type { ComponentConfig } from '../types'
 type TextBlink = ComponentConfig<typeof theme, AppConfig, 'textBlink', 'fantasies'>
 
 export interface TextBlinkProps {
-  color?: string
+  color?: TextBlink['variants']['color']
   delay?: number
   duration?: number
   opacity?: number
@@ -43,7 +43,8 @@ const ui = computed(() => tv({
   }, appConfig.fantasies?.textBlink || {})
 })({
   fontWeight: props.fontWeight,
-  size: props.size
+  size: props.size,
+  color: props.color
 }))
 
 onMounted(() => {
