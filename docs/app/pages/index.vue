@@ -32,6 +32,7 @@ const choose = async (action: 'play' | 'continue') => {
   const { pixiSound } = await usePixi()
   pixiSound.sound.play('select', { volume: 0.5 })
   setTimeout(() => {
+    pixiSound.sound.pause('prelude')
     router.push('/docs')
   }, 500)
 }

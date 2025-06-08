@@ -14,7 +14,9 @@ export default async function usePixi() {
 
     Pixi.Assets.addBundle('sounds', {
       prelude: '/sounds/prelude.mp3',
-      select: '/sounds/select.mp3'
+      select: '/sounds/select.mp3',
+      demo: '/sprits/a.png',
+      demo2: '/sprits/b.png'
     })
 
     await Pixi.Assets.loadBundle('sounds')
