@@ -50,7 +50,7 @@ const ui = computed(() => tv({
 }))
 
 const colorStyle = computed(() => {
-  return props.color.startsWith('#') ? props.color : `var(--ui-color-${props.color}-500)`
+  return props.color.startsWith('#') ? props.color : `var(--ui-color-${props.color})`
 })
 
 onMounted(() => {
@@ -68,7 +68,7 @@ onMounted(() => {
 
 <template>
   <div :class="ui.root()" style="clear:both;">
-    <div :class="ui.shaded()" :style="{ opacity: props.opacity, color: '#ffffff' }">
+    <div :class="ui.shaded()" :style="{ opacity: props.opacity, color: colorStyle }">
       <slot v-bind="props" />
     </div>
     <div

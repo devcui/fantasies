@@ -8,12 +8,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    FColorList: typeof import('./../src/runtime/components/ColorList.vue')['default']
     FForm: typeof import('./../src/runtime/components/Form.vue')['default']
     FFormField: typeof import('./../src/runtime/components/FormField.vue')['default']
     FFormItem: typeof import('./../src/runtime/components/FormItem.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    UApp: typeof import('./../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parse_a5aee23c7b2bf5a37c23f6b2fa0c6e09/node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
-    UForm: typeof import('./../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parse_a5aee23c7b2bf5a37c23f6b2fa0c6e09/node_modules/@nuxt/ui/dist/runtime/components/Form.vue')['default']
+    UApp: typeof import('./../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.5_db0@0.3.2_better-sqlite3@11.10.0__embla-carousel@8._a5aee23c7b2bf5a37c23f6b2fa0c6e09/node_modules/@nuxt/ui/dist/runtime/components/App.vue')['default']
+    UForm: typeof import('./../node_modules/.pnpm/@nuxt+ui@3.1.3_@babel+parser@7.27.5_db0@0.3.2_better-sqlite3@11.10.0__embla-carousel@8._a5aee23c7b2bf5a37c23f6b2fa0c6e09/node_modules/@nuxt/ui/dist/runtime/components/Form.vue')['default']
   }
 }

@@ -1,4 +1,5 @@
 export { default as Form } from './form'
 export { default as FormItem } from './form-item'
 export { default as FormField } from './form-field'
+export { default as TextBlink } from './text-blink'
 export { default as TextLoading } from './text-loading'
