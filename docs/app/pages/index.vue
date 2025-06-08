@@ -6,7 +6,8 @@ definePageMeta({
 })
 
 const state = reactive({
-  titleCompiled: false
+  titleCompiled: false,
+  choosed: 'play'
 })
 
 onMounted(async () => {
@@ -28,6 +29,16 @@ const isDark = computed({
     colorMode.preference = _isDark ? 'dark' : 'light'
   }
 })
+
+const choose = (action: 'play' | 'continue') => {
+  useSoundFrom({
+    url: '/sounds/select.mp3',
+    autoPlay: true,
+    volume: 0.5
+  }).then(() => {
+    state.choosed = action
+  })
+}
 </script>
 
 <template>
@@ -74,17 +85,33 @@ const isDark = computed({
         <FTextBlink
           :size="'text-lg'"
           :opacity="0"
+          :delay="1"
+          :duration="0.5"
           :font-weight="'font-semibold'"
-          @click="console.log('Text clicked')"
+          @click="choose('continue')"
         >
+          <div
+            v-if="state.choosed === 'continue'"
+            class="absolute -left-8 text-primary animate-pulse"
+          >
+            ▶
+          </div>
           <span>CONTINUE</span>
         </FTextBlink>
         <FTextBlink
           :size="'text-lg'"
           :opacity="0"
+          :delay="1"
+          :duration="0.5"
           :font-weight="'font-semibold'"
-          @click="console.log('Text clicked')"
+          @click="choose('play')"
         >
+          <div
+            v-if="state.choosed === 'play'"
+            class="absolute -left-8 text-primary animate-pulse"
+          >
+            ▶
+          </div>
           <span>PLAY</span>
         </FTextBlink>
       </div>

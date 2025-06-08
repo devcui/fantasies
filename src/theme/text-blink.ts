@@ -5,7 +5,7 @@ const fontWeight = ['font-thin', 'font-extralight', 'font-light', 'font-normal',
 
 export default (options: Required<NuxtOptions['ui']>) => ({
   slots: {
-    root: 'clear-both inline-block cursor-pointer'
+    root: 'clear-both inline-block cursor-pointer relative'
   },
   variants: {
     color: {
