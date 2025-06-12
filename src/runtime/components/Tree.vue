@@ -92,7 +92,7 @@ interface FoundItemWithPath {
 }
 
 export type TreeEmits<A extends TreeItem[], VK extends GetItemKeys<A> | undefined, M extends boolean> = Omit<TreeRootEmits, 'update:modelValue'> & GetModelValueEmits<A, VK, M> & {
-  'update:checkedKeys': (keys: string[]) => true
+  'update:checkedKeys': [keys: string[]]
 }
 
 type SlotProps<T extends TreeItem> = (props: { item: T, index: number, level: number, expanded: boolean, selected: boolean }) => any
@@ -241,7 +241,7 @@ function onCheckedChange(key: string, e?: boolean | 'indeterminate') {
 
   for (let i = parentPath.length - 1; i >= 0; i--) {
     const parentItem = parentPath[i]
-    if (parentItem.children) {
+    if (parentItem && parentItem.children) {
       parentItem.checked = calculateParentCheckedState(parentItem.children)
     }
   }

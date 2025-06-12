@@ -10,9 +10,9 @@ import { useAppConfig } from '#imports'
 type PageHeader = ComponentConfig<typeof theme, AppConfig, 'pageHeader', 'fantasies'>
 
 export type PageHeaderProps = {
-  color: PageHeader['color']
-  bgColor: PageHeader['bgColor']
-  size: PageHeader['size']
+  color: PageHeader['variants']['color']
+  bgColor: PageHeader['variants']['bgColor']
+  size: PageHeader['variants']['size']
   float: boolean
 }
 </script>
