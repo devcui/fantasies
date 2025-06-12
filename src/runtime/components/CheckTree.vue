@@ -2,13 +2,13 @@
 <script lang="ts">
 import type { TreeRootProps, TreeRootEmits } from 'reka-ui'
 import type { AppConfig } from '@nuxt/schema'
-import theme from '#build/fantasies/tree'
+import theme from '#build/fantasies/check-tree'
 import type { DynamicSlots, GetItemKeys, GetModelValue, GetModelValueEmits, NestedItem } from '../types/utils'
 import type { ComponentConfig } from '../types/tv'
 
-type Tree = ComponentConfig<typeof theme, AppConfig, 'tree'>
+type CheckTree = ComponentConfig<typeof theme, AppConfig, 'checkTree', 'fantasies'>
 
-export type TreeItem = {
+export type CheckTreeItem = {
   /** checkbox  */
   checked?: boolean | 'indeterminate'
   /**
@@ -25,15 +25,15 @@ export type TreeItem = {
   disabled?: boolean
   value?: string
   slot?: string
-  children?: TreeItem[]
+  children?: CheckTreeItem[]
   onToggle?(e: Event): void
   onSelect?(e?: Event): void
   class?: any
-  ui?: Pick<Tree['slots'], 'item' | 'itemWithChildren' | 'link' | 'linkLeadingIcon' | 'linkLabel' | 'linkTrailing' | 'linkTrailingIcon' | 'listWithChildren'>
+  ui?: Pick<CheckTree['slots'], 'item' | 'itemWithChildren' | 'link' | 'linkLeadingIcon' | 'linkLabel' | 'linkTrailing' | 'linkTrailingIcon' | 'listWithChildren'>
   [key: string]: any
 }
 
-export interface TreeProps<T extends TreeItem[] = TreeItem[], VK extends GetItemKeys<T> = 'value', M extends boolean = false> extends Pick<TreeRootProps<T>, 'expanded' | 'defaultExpanded' | 'selectionBehavior' | 'propagateSelect' | 'disabled' | 'bubbleSelect'> {
+export interface CheckTreeProps<T extends CheckTreeItem[] = CheckTreeItem[], VK extends GetItemKeys<T> = 'value', M extends boolean = false> extends Pick<TreeRootProps<T>, 'expanded' | 'defaultExpanded' | 'selectionBehavior' | 'propagateSelect' | 'disabled' | 'bubbleSelect'> {
   /**
    * The element or component this component should render as.
    * @defaultValue 'ul'
@@ -42,11 +42,11 @@ export interface TreeProps<T extends TreeItem[] = TreeItem[], VK extends GetItem
   /**
    * @defaultValue 'primary'
    */
-  color?: Tree['variants']['color']
+  color?: CheckTree['variants']['color']
   /**
    * @defaultValue 'md'
    */
-  size?: Tree['variants']['size']
+  size?: CheckTree['variants']['size']
   /**
    * The key used to get the value from the item.
    * @defaultValue 'value'
@@ -83,22 +83,22 @@ export interface TreeProps<T extends TreeItem[] = TreeItem[], VK extends GetItem
   /** Whether multiple options can be selected or not. */
   multiple?: M & boolean
   class?: any
-  ui?: Tree['slots']
+  ui?: CheckTree['slots']
 }
 
 interface FoundItemWithPath {
-  item: TreeItem
-  path: TreeItem[]
+  item: CheckTreeItem
+  path: CheckTreeItem[]
 }
 
-export type TreeEmits<A extends TreeItem[], VK extends GetItemKeys<A> | undefined, M extends boolean> = Omit<TreeRootEmits, 'update:modelValue'> & GetModelValueEmits<A, VK, M> & {
+export type TreeEmits<A extends CheckTreeItem[], VK extends GetItemKeys<A> | undefined, M extends boolean> = Omit<TreeRootEmits, 'update:modelValue'> & GetModelValueEmits<A, VK, M> & {
   'update:checkedKeys': [keys: string[]]
 }
 
-type SlotProps<T extends TreeItem> = (props: { item: T, index: number, level: number, expanded: boolean, selected: boolean }) => any
+type SlotProps<T extends CheckTreeItem> = (props: { item: T, index: number, level: number, expanded: boolean, selected: boolean }) => any
 
 export type TreeSlots<
-  A extends TreeItem[] = TreeItem[],
+  A extends CheckTreeItem[] = CheckTreeItem[],
   T extends NestedItem<A> = NestedItem<A>
 > = {
   'item': SlotProps<T>
@@ -109,7 +109,7 @@ export type TreeSlots<
 
 </script>
 
-<script setup lang="ts" generic="T extends TreeItem[], VK extends GetItemKeys<T> = 'value', M extends boolean = false">
+<script setup lang="ts" generic="T extends CheckTreeItem[], VK extends GetItemKeys<T> = 'value', M extends boolean = false">
 import { computed } from 'vue'
 import { TreeRoot, TreeItem, useForwardPropsEmits } from 'reka-ui'
 import { reactivePick, createReusableTemplate } from '@vueuse/core'
@@ -119,25 +119,25 @@ import { tv } from '../utils/tv'
 import UIcon from '@nuxt/ui/components/Icon.vue'
 import UCheckbox from '@nuxt/ui/components/Checkbox.vue'
 
-const props = withDefaults(defineProps<TreeProps<T, VK, M>>(), {
+const props = withDefaults(defineProps<CheckTreeProps<T, VK, M>>(), {
   labelKey: 'label' as never,
   valueKey: 'value' as never
 })
 const emits = defineEmits<TreeEmits<T, VK, M>>()
 const slots = defineSlots<TreeSlots<T>>()
 
-const appConfig = useAppConfig() as Tree['AppConfig']
+const appConfig = useAppConfig() as CheckTree['AppConfig']
 
 const rootProps = useForwardPropsEmits(reactivePick(props, 'as', 'modelValue', 'defaultValue', 'items', 'multiple', 'expanded', 'disabled', 'propagateSelect', 'bubbleSelect'), emits)
 
-const [DefineTreeTemplate, ReuseTreeTemplate] = createReusableTemplate<{ items?: TreeItem[], level: number }, TreeSlots<T>>()
+const [DefineTreeTemplate, ReuseTreeTemplate] = createReusableTemplate<{ items?: CheckTreeItem[], level: number }, TreeSlots<T>>()
 
-const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.ui?.tree || {}) })({
+const ui = computed(() => tv({ extend: tv(theme), ...(appConfig.fantasies?.checkTree || {}) })({
   color: props.color,
   size: props.size
 }))
 
-function getItemLabel<Item extends TreeItem = NestedItem<T>>(item: Item): string {
+function getItemLabel<Item extends CheckTreeItem = NestedItem<T>>(item: Item): string {
   return get(item, props.labelKey as string)
 }
 
@@ -147,15 +147,15 @@ function getItemValue(item: NestedItem<T>): string {
 
 function getDefaultOpenedItems(item: NestedItem<T>): string[] {
   const currentItem = item.defaultExpanded ? getItemValue(item) : null
-  const childItems = item.children?.flatMap((child: TreeItem) => getDefaultOpenedItems(child as NestedItem<T>)) ?? []
+  const childItems = item.children?.flatMap((child: CheckTreeItem) => getDefaultOpenedItems(child as NestedItem<T>)) ?? []
 
   return [currentItem, ...childItems].filter(Boolean) as string[]
 }
 
 function findItemAndPath(
   key: string,
-  currentItems: TreeItem[] | undefined,
-  currentPath: TreeItem[] = []
+  currentItems: CheckTreeItem[] | undefined,
+  currentPath: CheckTreeItem[] = []
 ): FoundItemWithPath | null {
   if (!currentItems) return null
   for (const item of currentItems) {
@@ -170,7 +170,7 @@ function findItemAndPath(
   return null
 }
 
-function setChildrenCheckedStateRecursive(children: TreeItem[] | undefined, state: boolean) {
+function setChildrenCheckedStateRecursive(children: CheckTreeItem[] | undefined, state: boolean) {
   if (!children) return
   for (const child of children) {
     child.checked = state
@@ -180,7 +180,7 @@ function setChildrenCheckedStateRecursive(children: TreeItem[] | undefined, stat
   }
 }
 
-function calculateParentCheckedState(children: TreeItem[] | undefined): boolean | 'indeterminate' {
+function calculateParentCheckedState(children: CheckTreeItem[] | undefined): boolean | 'indeterminate' {
   if (!children || children.length === 0) {
     return false
   }
@@ -213,7 +213,7 @@ function calculateParentCheckedState(children: TreeItem[] | undefined): boolean 
   return false
 }
 
-function getCheckedKeysRecursive(items: TreeItem[] | undefined): string[] {
+function getCheckedKeysRecursive(items: CheckTreeItem[] | undefined): string[] {
   if (!items) return []
   let keys: string[] = []
   for (const item of items) {
@@ -228,7 +228,7 @@ function getCheckedKeysRecursive(items: TreeItem[] | undefined): string[] {
 }
 
 function onCheckedChange(key: string) {
-  const itemPathResult = findItemAndPath(key, props.items as TreeItem[])
+  const itemPathResult = findItemAndPath(key, props.items as CheckTreeItem[])
   if (!itemPathResult) {
     return
   }
@@ -246,7 +246,7 @@ function onCheckedChange(key: string) {
     }
   }
 
-  const allCheckedOrIndeterminateKeys = getCheckedKeysRecursive(props.items as TreeItem[])
+  const allCheckedOrIndeterminateKeys = getCheckedKeysRecursive(props.items as CheckTreeItem[])
   emits('update:checkedKeys', allCheckedOrIndeterminateKeys)
 }
 
@@ -257,108 +257,108 @@ const defaultExpanded = computed(() =>
 
 <!-- eslint-disable vue/no-template-shadow -->
 <template>
-  <DefineTreeTemplate v-slot="{ items, level }">
-    <li
-      v-for="(item, index) in items"
-      :key="`${level}-${index}`"
-      :class="level > 0 ? ui.itemWithChildren({ class: [props.ui?.itemWithChildren, item.ui?.itemWithChildren] }) : ui.item({ class: [props.ui?.item, item.ui?.item] })"
-    >
-      <TreeItem
-        v-slot="{ isExpanded, isSelected }"
-        as-child
-        :level="level"
-        :value="item"
-        @toggle="item.onToggle"
-        @select="item.onSelect"
+  <ClientOnly>
+    <DefineTreeTemplate v-slot="{ items, level }">
+      <li
+        v-for="(item, index) in items"
+        :key="`${level}-${index}`"
+        :class="level > 0 ? ui.itemWithChildren({ class: [props.ui?.itemWithChildren, item.ui?.itemWithChildren] }) : ui.item({ class: [props.ui?.item, item.ui?.item] })"
       >
-        <button
-          :disabled="item.disabled || disabled"
-          :class="ui.link({ class: [props.ui?.link, item.ui?.link, item.class], selected: isSelected, disabled: item.disabled || disabled })"
+        <TreeItem
+          v-slot="{ isExpanded, isSelected }"
+          as-child
+          :level="level"
+          :value="item"
+          @toggle="item.onToggle"
+          @select="item.onSelect"
         >
-          <ClientOnly>
+          <button
+            :disabled="item.disabled || disabled"
+            :class="ui.link({ class: [props.ui?.link, item.ui?.link, item.class], selected: isSelected, disabled: item.disabled || disabled })"
+          >
             <UCheckbox
               :key="item.key"
               v-model="item.checked"
               @click.stop
               @update:model-value="onCheckedChange(item.key)"
             />
-          </ClientOnly>
-          <slot
-            :name="((item.slot || 'item') as keyof TreeSlots<T>)"
-            v-bind="{ index, level, expanded: isExpanded, selected: isSelected }"
-            :item="(item as Extract<NestedItem<T>, { slot: string; }>)"
-          >
             <slot
-              :name="((item.slot ? `${item.slot}-leading` : 'item-leading') as keyof TreeSlots<T>)"
+              :name="((item.slot || 'item') as keyof TreeSlots<T>)"
               v-bind="{ index, level, expanded: isExpanded, selected: isSelected }"
               :item="(item as Extract<NestedItem<T>, { slot: string; }>)"
             >
-              <UIcon
-                v-if="item.icon"
-                :name="item.icon"
-                :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, item.ui?.linkLeadingIcon] })"
-              />
-              <UIcon
-                v-else-if="item.children?.length"
-                :name="isExpanded ? (expandedIcon ?? appConfig.ui.icons.folderOpen) : (collapsedIcon ?? appConfig.ui.icons.folder)"
-                :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, item.ui?.linkLeadingIcon] })"
-              />
-            </slot>
-
-            <span
-              v-if="getItemLabel(item) || !!slots[(item.slot ? `${item.slot}-label` : 'item-label') as keyof TreeSlots<T>]"
-              :class="ui.linkLabel({ class: [props.ui?.linkLabel, item.ui?.linkLabel] })"
-            >
               <slot
-                :name="((item.slot ? `${item.slot}-label` : 'item-label') as keyof TreeSlots<T>)"
-                v-bind="{ item, index, level, expanded: isExpanded, selected: isSelected }"
-                :item="(item as Extract<NestedItem<T>, { slot: string; }>)"
-              >
-                {{ getItemLabel(item) }}
-              </slot>
-            </span>
-
-            <span
-              v-if="item.trailingIcon || item.children?.length || !!slots[(item.slot ? `${item.slot}-trailing` : 'item-trailing') as keyof TreeSlots<T>]"
-              :class="ui.linkTrailing({ class: [props.ui?.linkTrailing, item.ui?.linkTrailing] })"
-            >
-              <slot
-                :name="((item.slot ? `${item.slot}-trailing` : 'item-trailing') as keyof TreeSlots<T>)"
-                v-bind="{ item, index, level, expanded: isExpanded, selected: isSelected }"
+                :name="((item.slot ? `${item.slot}-leading` : 'item-leading') as keyof TreeSlots<T>)"
+                v-bind="{ index, level, expanded: isExpanded, selected: isSelected }"
                 :item="(item as Extract<NestedItem<T>, { slot: string; }>)"
               >
                 <UIcon
-                  v-if="item.trailingIcon"
-                  :name="item.trailingIcon"
-                  :class="ui.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, item.ui?.linkTrailingIcon] })"
+                  v-if="item.icon"
+                  :name="item.icon"
+                  :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, item.ui?.linkLeadingIcon] })"
                 />
                 <UIcon
                   v-else-if="item.children?.length"
-                  :name="trailingIcon ?? appConfig.ui.icons.chevronDown"
-                  :class="ui.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, item.ui?.linkTrailingIcon] })"
+                  :name="isExpanded ? (expandedIcon ?? appConfig.ui.icons.folderOpen) : (collapsedIcon ?? appConfig.ui.icons.folder)"
+                  :class="ui.linkLeadingIcon({ class: [props.ui?.linkLeadingIcon, item.ui?.linkLeadingIcon] })"
                 />
               </slot>
-            </span>
-          </slot>
-        </button>
 
-        <ul
-          v-if="item.children?.length && isExpanded"
-          :class="ui.listWithChildren({ class: [props.ui?.listWithChildren, item.ui?.listWithChildren] })"
-        >
-          <ReuseTreeTemplate :items="item.children" :level="level + 1" />
-        </ul>
-      </TreeItem>
-    </li>
-  </DefineTreeTemplate>
+              <span
+                v-if="getItemLabel(item) || !!slots[(item.slot ? `${item.slot}-label` : 'item-label') as keyof TreeSlots<T>]"
+                :class="ui.linkLabel({ class: [props.ui?.linkLabel, item.ui?.linkLabel] })"
+              >
+                <slot
+                  :name="((item.slot ? `${item.slot}-label` : 'item-label') as keyof TreeSlots<T>)"
+                  v-bind="{ item, index, level, expanded: isExpanded, selected: isSelected }"
+                  :item="(item as Extract<NestedItem<T>, { slot: string; }>)"
+                >
+                  {{ getItemLabel(item) }}
+                </slot>
+              </span>
 
-  <TreeRoot
-    v-bind="(rootProps as unknown as TreeRootProps<NestedItem<T>>)"
-    :class="ui.root({ class: [props.ui?.root, props.class] })"
-    :get-key="getItemValue"
-    :default-expanded="defaultExpanded"
-    :selection-behavior="selectionBehavior"
-  >
-    <ReuseTreeTemplate :items="items" :level="0" />
-  </TreeRoot>
+              <span
+                v-if="item.trailingIcon || item.children?.length || !!slots[(item.slot ? `${item.slot}-trailing` : 'item-trailing') as keyof TreeSlots<T>]"
+                :class="ui.linkTrailing({ class: [props.ui?.linkTrailing, item.ui?.linkTrailing] })"
+              >
+                <slot
+                  :name="((item.slot ? `${item.slot}-trailing` : 'item-trailing') as keyof TreeSlots<T>)"
+                  v-bind="{ item, index, level, expanded: isExpanded, selected: isSelected }"
+                  :item="(item as Extract<NestedItem<T>, { slot: string; }>)"
+                >
+                  <UIcon
+                    v-if="item.trailingIcon"
+                    :name="item.trailingIcon"
+                    :class="ui.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, item.ui?.linkTrailingIcon] })"
+                  />
+                  <UIcon
+                    v-else-if="item.children?.length"
+                    :name="trailingIcon ?? appConfig.ui.icons.chevronDown"
+                    :class="ui.linkTrailingIcon({ class: [props.ui?.linkTrailingIcon, item.ui?.linkTrailingIcon] })"
+                  />
+                </slot>
+              </span>
+            </slot>
+          </button>
+
+          <ul
+            v-if="item.children?.length && isExpanded"
+            :class="ui.listWithChildren({ class: [props.ui?.listWithChildren, item.ui?.listWithChildren] })"
+          >
+            <ReuseTreeTemplate :items="item.children" :level="level + 1" />
+          </ul>
+        </TreeItem>
+      </li>
+    </DefineTreeTemplate>
+
+    <TreeRoot
+      v-bind="(rootProps as unknown as TreeRootProps<NestedItem<T>>)"
+      :class="ui.root({ class: [props.ui?.root, props.class] })"
+      :get-key="getItemValue"
+      :default-expanded="defaultExpanded"
+      :selection-behavior="selectionBehavior"
+    >
+      <ReuseTreeTemplate :items="items" :level="0" />
+    </TreeRoot>
+  </ClientOnly>
 </template>

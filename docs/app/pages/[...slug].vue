@@ -62,5 +62,5 @@ const items = ref([
 </script>
 
 <template>
-  <FTree :items="items" @update:checked-keys="onChecked($event)" />
+  <FCheckTree :items="items" @update:checked-keys="onChecked($event)" />
 </template>
