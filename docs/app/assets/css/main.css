@@ -3,19 +3,3 @@
 
 @source "../../../content/**/*";
 @source "../../../node_modules/.c12";
-
-@theme static {
-  --color-bg: #000000;
-  --color-primary: #FFFFFF;
-}
-
-.light {
-  --ui-bg: #000000;
-  --color-primary: #FFFFFF;
-}
-
-.dark {
-  --ui-bg: #FFFFFF;
-  --color-primary: #000000;
-}
-

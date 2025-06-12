@@ -8,11 +8,6 @@ export default defineAppConfig({
     radius: 0.25,
     blackAsPrimary: false
   },
-  ui: {
-    colors: {
-      primary: 'black'
-    }
-  },
-  fantasies: {
-  }
+  ui: { },
+  fantasies: { }
 })

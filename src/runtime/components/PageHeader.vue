@@ -20,9 +20,9 @@ export type PageHeaderProps = {
 <script lang="ts" setup>
 const props = defineProps<PageHeaderProps>()
 const slots = defineSlots<{
-  left?: (props: PageHeaderProps) => void
-  content?: (props: PageHeaderProps) => void
-  right?: (props: PageHeaderProps) => void
+  left?: (props: PageHeaderProps) => any
+  content?: (props: PageHeaderProps) => any
+  right?: (props: PageHeaderProps) => any
 }>()
 
 const appConfig = useAppConfig() as PageHeader['AppConfig']
