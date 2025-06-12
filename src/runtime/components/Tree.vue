@@ -227,7 +227,7 @@ function getCheckedKeysRecursive(items: TreeItem[] | undefined): string[] {
   return keys
 }
 
-function onCheckedChange(key: string, e?: boolean | 'indeterminate') {
+function onCheckedChange(key: string) {
   const itemPathResult = findItemAndPath(key, props.items as TreeItem[])
   if (!itemPathResult) {
     return
@@ -280,7 +280,7 @@ const defaultExpanded = computed(() =>
               :key="item.key"
               v-model="item.checked"
               @click.stop
-              @update:model-value="onCheckedChange(item.key, $event)"
+              @update:model-value="onCheckedChange(item.key)"
             />
           </ClientOnly>
           <slot
